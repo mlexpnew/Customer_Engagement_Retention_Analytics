@@ -70,7 +70,7 @@ def global_importance(bundle, df: pd.DataFrame, reference: dict, sample: int = 1
     s = df.sample(min(sample, len(df)), random_state=0)
     base = bundle.predict_proba(s)
     out = {}
-    for key, (cols, label, _) in DRIVERS.items():
+    for cols, label, _ in DRIVERS.values():
         alt = s.copy()
         for c in cols:
             alt[c] = reference[c]
