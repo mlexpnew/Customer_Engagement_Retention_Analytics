@@ -1,0 +1,185 @@
+{
+  "model": "gradient_boosting",
+  "rows": {
+    "train": 8000,
+    "test": 2000,
+    "rejected": 0
+  },
+  "cv_comparison": {
+    "logistic_regression": {
+      "cv_roc_auc": 0.7799,
+      "cv_std": 0.0199
+    },
+    "random_forest": {
+      "cv_roc_auc": 0.8569,
+      "cv_std": 0.0109
+    },
+    "gradient_boosting": {
+      "cv_roc_auc": 0.8566,
+      "cv_std": 0.0065
+    }
+  },
+  "holdout": {
+    "roc_auc": 0.8636,
+    "pr_auc": 0.7083,
+    "brier": 0.1009,
+    "base_rate": 0.2035,
+    "precision_top_10pct": 0.82,
+    "lift_top_10pct": 4.03,
+    "recall_top_10pct": 0.4029,
+    "calibration": [
+      {
+        "bin": "0.0-0.1",
+        "n": 953,
+        "predicted": 0.048,
+        "observed": 0.043
+      },
+      {
+        "bin": "0.1-0.2",
+        "n": 385,
+        "predicted": 0.14,
+        "observed": 0.117
+      },
+      {
+        "bin": "0.2-0.3",
+        "n": 257,
+        "predicted": 0.246,
+        "observed": 0.245
+      },
+      {
+        "bin": "0.3-0.4",
+        "n": 114,
+        "predicted": 0.346,
+        "observed": 0.43
+      },
+      {
+        "bin": "0.4-0.5",
+        "n": 52,
+        "predicted": 0.451,
+        "observed": 0.404
+      },
+      {
+        "bin": "0.5-0.6",
+        "n": 40,
+        "predicted": 0.556,
+        "observed": 0.625
+      },
+      {
+        "bin": "0.6-0.7",
+        "n": 41,
+        "predicted": 0.651,
+        "observed": 0.537
+      },
+      {
+        "bin": "0.7-0.8",
+        "n": 34,
+        "predicted": 0.751,
+        "observed": 0.765
+      },
+      {
+        "bin": "0.8-0.9",
+        "n": 43,
+        "predicted": 0.853,
+        "observed": 0.86
+      },
+      {
+        "bin": "0.9-1.0",
+        "n": 81,
+        "predicted": 0.968,
+        "observed": 0.963
+      }
+    ]
+  },
+  "plan": {
+    "budget": 20000.0,
+    "assumptions": {
+      "contact_cost": 40.0,
+      "success_rate": 0.3,
+      "margin_on_balance": 0.015,
+      "value_per_product": 60.0,
+      "horizon_years": 3.0
+    },
+    "strategies": {
+      "retainlens_expected_value": {
+        "contacted": 500,
+        "real_churners_reached": 239,
+        "net_value": 406848.0
+      },
+      "highest_churn_probability": {
+        "contacted": 500,
+        "real_churners_reached": 287,
+        "net_value": 360877.0
+      },
+      "highest_balance": {
+        "contacted": 500,
+        "real_churners_reached": 112,
+        "net_value": 223596.0
+      },
+      "random": {
+        "contacted": 500,
+        "real_churners_reached": 95,
+        "net_value": 111726.0
+      }
+    }
+  },
+  "gender_ablation": {
+    "cv_auc_without_gender": 0.8566,
+    "cv_auc_with_gender": 0.8587,
+    "auc_cost_of_excluding": 0.0021
+  },
+  "fairness": {
+    "Gender": {
+      "Female": {
+        "customers": 861,
+        "churn_rate": 0.247,
+        "roc_auc": 0.86,
+        "flagged_rate": 0.34,
+        "recall_of_churners": 0.756
+      },
+      "Male": {
+        "customers": 1139,
+        "churn_rate": 0.17,
+        "roc_auc": 0.865,
+        "flagged_rate": 0.284,
+        "recall_of_churners": 0.778
+      }
+    },
+    "Geography": {
+      "France": {
+        "customers": 1021,
+        "churn_rate": 0.167,
+        "roc_auc": 0.848,
+        "flagged_rate": 0.229,
+        "recall_of_churners": 0.688
+      },
+      "Germany": {
+        "customers": 503,
+        "churn_rate": 0.314,
+        "roc_auc": 0.856,
+        "flagged_rate": 0.533,
+        "recall_of_churners": 0.88
+      },
+      "Spain": {
+        "customers": 476,
+        "churn_rate": 0.166,
+        "roc_auc": 0.861,
+        "flagged_rate": 0.239,
+        "recall_of_churners": 0.709
+      }
+    }
+  },
+  "drivers": {
+    "Product holding is a churn signal": 0.0911,
+    "Life-stage segment with high churn": 0.0608,
+    "Inactive in the last period": 0.0474,
+    "Market with elevated churn": 0.0261,
+    "Balance pattern linked to leaving": 0.0196,
+    "Credit score band with higher churn": 0.0077,
+    "Tenure stage with higher churn": -0.0005
+  },
+  "drift": {
+    "holdout": "ok",
+    "shifted": "act",
+    "shifted_worst_psi": 2.1814
+  }
+}
