@@ -3,8 +3,8 @@ from pathlib import Path
 import pandas as pd
 import pytest
 
-from retainlens.data import add_features, load, split
-from retainlens.model import train
+from churnshield.data import add_features, load, split
+from churnshield.model import train
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -17,7 +17,7 @@ def data() -> pd.DataFrame:
 @pytest.fixture(scope="session")
 def small_bundle(data):
     """A quick model on 2,000 rows, so tests do not depend on the committed artifact."""
-    from retainlens.explain import reference_profile
+    from churnshield.explain import reference_profile
 
     tr, _ = split(data.sample(2000, random_state=1))
     bundle, _ = train(tr, folds=3)

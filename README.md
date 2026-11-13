@@ -1,10 +1,10 @@
-# RetainLens
+# ChurnShield
 
-![CI](https://github.com/mlexpnew/retainlens/actions/workflows/ci.yml/badge.svg?branch=main)
+![CI](https://github.com/mlexpnew/churnshield/actions/workflows/ci.yml/badge.svg?branch=main)
 
 **Which bank customers are about to leave, why, and who to call first with this month's retention budget.**
 
-A churn score alone does not tell a retention team what to do. RetainLens turns it into a ranked call list: each customer's churn probability, the reasons behind it, a suggested talking point, and the expected value of calling them, picked to fit a fixed budget.
+A churn score alone does not tell a retention team what to do. ChurnShield turns it into a ranked call list: each customer's churn probability, the reasons behind it, a suggested talking point, and the expected value of calling them, picked to fit a fixed budget.
 
 ## Results on 10,000 real bank customers
 
@@ -22,7 +22,7 @@ Each strategy contacts 500 held-out customers. Value is realised with what actua
 
 | Who to call | Real leavers reached | Net value (EUR) |
 |---|---|---|
-| **RetainLens: expected value** | 239 | **406,848** |
+| **ChurnShield: expected value** | 239 | **406,848** |
 | Highest churn probability | 287 | 360,877 |
 | Highest balance | 112 | 223,596 |
 | Random | 95 | 111,726 |
@@ -41,13 +41,33 @@ Reasons come from a model-agnostic test: reset one driver (activity, products, a
 
 ## Responsible by design
 
-| Concern | What RetainLens does |
+| Concern | What ChurnShield does |
 |---|---|
 | Gender bias in offers | Gender is **not a model input**. Measured cost of excluding it: 0.002 ROC-AUC. Model quality is equal across genders (AUC 0.860 vs 0.865) |
 | Market differences | Germany has 31% churn vs 17% elsewhere; the model flags more German customers because more leave, with similar AUC (0.85 to 0.86) in every market |
 | Overconfident scores | Isotonic calibration; probabilities clipped to 1 to 99% |
 | Silent model decay | PSI drift check per feature (stable < 0.10, act > 0.25); a simulated bad month scores PSI 2.18 and triggers "retrain" |
 | Bad input rows | Validated against plausible ranges and rejected with a reason, never silently scored |
+
+## Who buys it and how it is sold
+
+| | |
+|---|---|
+| **Buyers** | Retail banks, small finance and cooperative banks, NBFCs and fintech lenders; the same approach fits insurers and telecoms with a data mapping |
+| **Their pain** | A fixed retention budget is spent on whoever looks riskiest or richest, so offers go to customers who would have stayed anyway, or who are worth less than the call |
+| **What they get** | A monthly call list sized to the budget: who to call, why they may leave, what to say, and the expected value of each call, plus a drift alert when the model needs retraining |
+| **Deployment** | Docker inside the bank's network; customer data never leaves it. Monthly batch through the API or a CSV export from the core banking system or CRM |
+| **Governance** | Every score has its reasons, the model card and held-out metrics are regenerated on each run, and CI blocks a model below AUC 0.84: the evidence model-risk and audit teams ask for |
+
+**ROI from the benchmark above:** with the same EUR 20,000 budget and 500 calls, the value plan earns **EUR 45,971 more** than calling the highest-probability customers and **3.6x** random targeting. For a bank, that difference repeats every campaign.
+
+| Plan (suggested) | For | Price idea |
+|---|---|---|
+| Setup | Every client | One-time fee: map their data fields, retrain on their history, set the budget rules |
+| Subscription | Small banks, NBFCs | Monthly fee per 10,000 active customers scored |
+| Enterprise | Larger banks | Annual licence, on-premise, quarterly retraining and a model review report |
+
+**Pilot plan (90 days):** retrain on the bank's last 12 months of customers, then run one campaign split into three groups: ChurnShield's list, the bank's usual list, and an untouched control group. Comparing them measures the real uplift and the real save rate, which also replaces the 30% assumption above with the bank's own number.
 
 ## How it works
 
@@ -77,14 +97,14 @@ pip install -e ".[app]" && streamlit run app.py          # demo with 2,000 sampl
 
 ```bash
 pip install -e .
-retainlens score customers.csv --out scored.csv
-retainlens plan customers.csv --budget 20000 --out call_list.csv
-retainlens drift this_month.csv
-python -m retainlens.train --gate                       # retrain; fails below AUC 0.84 or lift 2.5x
+churnshield score customers.csv --out scored.csv
+churnshield plan customers.csv --budget 20000 --out call_list.csv
+churnshield drift this_month.csv
+python -m churnshield.train --gate                       # retrain; fails below AUC 0.84 or lift 2.5x
 ```
 
 ```bash
-pip install -e ".[api]" && uvicorn retainlens.api:app    # or: docker build -t retainlens . && docker run -p 8000:8000 retainlens
+pip install -e ".[api]" && uvicorn churnshield.api:app    # or: docker build -t churnshield . && docker run -p 8000:8000 churnshield
 ```
 
 | Endpoint | Purpose |
@@ -107,12 +127,12 @@ pip install -e ".[api]" && uvicorn retainlens.api:app    # or: docker build -t r
 ## Project layout
 
 ```
-src/retainlens/data.py      schema, validation, features (protected attributes excluded)
-src/retainlens/model.py     candidates, CV, simplest-on-tie selection, calibration, metrics
-src/retainlens/explain.py   reason codes and suggested actions
-src/retainlens/plan.py      budget planner and strategy comparison
-src/retainlens/monitor.py   PSI drift and segment fairness report
-src/retainlens/train.py     end-to-end training, model report, quality gate
-src/retainlens/api.py       FastAPI service
+src/churnshield/data.py      schema, validation, features (protected attributes excluded)
+src/churnshield/model.py     candidates, CV, simplest-on-tie selection, calibration, metrics
+src/churnshield/explain.py   reason codes and suggested actions
+src/churnshield/plan.py      budget planner and strategy comparison
+src/churnshield/monitor.py   PSI drift and segment fairness report
+src/churnshield/train.py     end-to-end training, model report, quality gate
+src/churnshield/api.py       FastAPI service
 app.py                      Streamlit demo
 ```

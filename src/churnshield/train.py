@@ -1,6 +1,6 @@
-"""Train RetainLens end to end and write the model card numbers.
+"""Train ChurnShield end to end and write the model card numbers.
 
-    python -m retainlens.train --data data/European_Bank.xlsx --out models --gate
+    python -m churnshield.train --data data/European_Bank.xlsx --out models --gate
 """
 
 from __future__ import annotations
@@ -60,7 +60,7 @@ def shifted_batch(df, seed: int = 1):
 def report_markdown(r: dict) -> str:
     h, cmp = r["holdout"], r["cv_comparison"]
     lines = [
-        f"### RetainLens model report ({r['rows']['train']} train / {r['rows']['test']} "
+        f"### ChurnShield model report ({r['rows']['train']} train / {r['rows']['test']} "
         f"held-out customers, {r['rows']['rejected']} rejected by validation)",
         "",
         "| Candidate (5-fold CV on train) | ROC-AUC |",
@@ -117,7 +117,7 @@ def report_markdown(r: dict) -> str:
 
 
 def main(argv: list[str] | None = None) -> int:
-    p = argparse.ArgumentParser(description="Train and evaluate RetainLens")
+    p = argparse.ArgumentParser(description="Train and evaluate ChurnShield")
     p.add_argument("--data", default="data/European_Bank.xlsx")
     p.add_argument("--out", default="models")
     p.add_argument("--budget", type=float, default=20000.0, help="retention budget for the test")
@@ -158,7 +158,7 @@ def main(argv: list[str] | None = None) -> int:
     bundle.metadata.update(holdout=hold, reference_profile=ref)
     bundle.reference = train_df.sample(2000, random_state=SEED)  # for drift checks in the API
     out = Path(a.out)
-    bundle.save(out / "retainlens.joblib")
+    bundle.save(out / "churnshield.joblib")
     (out / "metrics.json").write_text(json.dumps(r, indent=2, default=str))
     md = report_markdown(r)
     (out / "report.md").write_text(md)

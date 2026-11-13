@@ -1,8 +1,8 @@
 """Command line for analysts.
 
-    retainlens score customers.csv --out scored.csv
-    retainlens plan customers.csv --budget 20000 --out call_list.csv
-    retainlens drift this_month.csv
+    churnshield score customers.csv --out scored.csv
+    churnshield plan customers.csv --budget 20000 --out call_list.csv
+    churnshield drift this_month.csv
 """
 
 from __future__ import annotations
@@ -25,7 +25,7 @@ def _flatten(df):
 
 
 def main(argv: list[str] | None = None) -> int:
-    p = argparse.ArgumentParser(prog="retainlens")
+    p = argparse.ArgumentParser(prog="churnshield")
     sub = p.add_subparsers(dest="cmd", required=True)
     for name in ("score", "plan", "drift"):
         s = sub.add_parser(name)

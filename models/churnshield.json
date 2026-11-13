@@ -1,7 +1,7 @@
 {
   "version": "1.0.0",
   "model": "gradient_boosting",
-  "trained_at": "2026-11-12T08:00:52+00:00",
+  "trained_at": "2026-11-13T08:34:36+00:00",
   "train_rows": 8000,
   "train_fingerprint": "918df349b334",
   "features": [

@@ -61,7 +61,7 @@ def compare_strategies(p: np.ndarray, df: pd.DataFrame, churned: np.ndarray, bud
     n = int(budget // a.contact_cost)
     rng = np.random.default_rng(seed)
     strategies = {
-        "retainlens_expected_value": select(p, df, budget, a),
+        "churnshield_expected_value": select(p, df, budget, a),
         "highest_churn_probability": np.argsort(-p)[:n],
         "highest_balance": np.argsort(-df["Balance"].to_numpy())[:n],
         "random": rng.choice(len(df), size=min(n, len(df)), replace=False),

@@ -1,8 +1,8 @@
 import pandas as pd
 import pytest
 
-from retainlens.cli import main
-from retainlens.service import plan, score
+from churnshield.cli import main
+from churnshield.service import plan, score
 
 
 def test_score_returns_reasons_and_actions(small_bundle, customers):
@@ -40,7 +40,7 @@ def test_api(customers):
     pytest.importorskip("httpx")
     from fastapi.testclient import TestClient
 
-    from retainlens.api import app
+    from churnshield.api import app
 
     c = TestClient(app)
     assert c.get("/health").json()["status"] == "ok"

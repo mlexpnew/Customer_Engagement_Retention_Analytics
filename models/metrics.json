@@ -100,7 +100,7 @@
       "horizon_years": 3.0
     },
     "strategies": {
-      "retainlens_expected_value": {
+      "churnshield_expected_value": {
         "contacted": 500,
         "real_churners_reached": 239,
         "net_value": 406848.0

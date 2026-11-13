@@ -16,13 +16,13 @@ from .plan import Assumptions, expected_net, select
 
 
 def default_model_path() -> str:
-    """RETAINLENS_MODEL, else models/ in the working directory, else next to the source tree."""
-    if os.getenv("RETAINLENS_MODEL"):
-        return os.environ["RETAINLENS_MODEL"]
-    local = Path("models/retainlens.joblib")
+    """CHURNSHIELD_MODEL, else models/ in the working directory, else next to the source tree."""
+    if os.getenv("CHURNSHIELD_MODEL"):
+        return os.environ["CHURNSHIELD_MODEL"]
+    local = Path("models/churnshield.joblib")
     if local.exists():
         return str(local)
-    return str(Path(__file__).resolve().parents[2] / "models" / "retainlens.joblib")
+    return str(Path(__file__).resolve().parents[2] / "models" / "churnshield.joblib")
 
 
 @lru_cache(maxsize=2)
@@ -68,5 +68,5 @@ def plan(bundle: ModelBundle, customers: pd.DataFrame, budget: float,
 def drift(bundle: ModelBundle, batch: pd.DataFrame) -> dict:
     ref = getattr(bundle, "reference", None)
     if ref is None:
-        raise ValueError("model has no reference sample; retrain with retainlens.train")
+        raise ValueError("model has no reference sample; retrain with churnshield.train")
     return drift_report(ref, add_features(validate(batch).valid))

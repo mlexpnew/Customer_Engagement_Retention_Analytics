@@ -1,8 +1,8 @@
 """HTTP API for CRM and core-banking integrations.
 
-    uvicorn retainlens.api:app --port 8000
+    uvicorn churnshield.api:app --port 8000
 
-Set RETAINLENS_API_KEYS (comma separated) to require an X-API-Key header.
+Set CHURNSHIELD_API_KEYS (comma separated) to require an X-API-Key header.
 """
 
 from __future__ import annotations
@@ -20,7 +20,7 @@ from .service import drift, load_model, plan, score
 MAX_ROWS = 50_000
 
 app = FastAPI(
-    title="RetainLens",
+    title="ChurnShield",
     version=__version__,
     description="Churn early warning and retention planning for retail banks.",
 )
@@ -51,7 +51,7 @@ class PlanRequest(Batch):
 
 
 def auth(x_api_key: str = Header(default="")) -> None:
-    keys = {k.strip() for k in os.getenv("RETAINLENS_API_KEYS", "").split(",") if k.strip()}
+    keys = {k.strip() for k in os.getenv("CHURNSHIELD_API_KEYS", "").split(",") if k.strip()}
     if keys and x_api_key not in keys:
         raise HTTPException(401, "missing or invalid X-API-Key")
 

@@ -3,7 +3,7 @@ requires = ["setuptools>=68"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "retainlens"
+name = "churnshield"
 version = "1.0.0"
 description = "Churn early warning and retention budget planning for retail banks"
 readme = "README.md"
@@ -24,7 +24,7 @@ app = ["streamlit>=1.35"]
 dev = ["pytest>=8.0", "ruff>=0.5", "httpx>=0.27"]
 
 [project.scripts]
-retainlens = "retainlens.cli:main"
+churnshield = "churnshield.cli:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]
@@ -42,4 +42,4 @@ select = ["E", "F", "I", "B", "UP"]
 ignore = ["B008"]
 
 [tool.ruff.lint.isort]
-known-first-party = ["retainlens"]
+known-first-party = ["churnshield"]

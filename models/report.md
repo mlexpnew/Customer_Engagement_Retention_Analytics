@@ -1,4 +1,4 @@
-### RetainLens model report (8000 train / 2000 held-out customers, 0 rejected by validation)
+### ChurnShield model report (8000 train / 2000 held-out customers, 0 rejected by validation)
 
 | Candidate (5-fold CV on train) | ROC-AUC |
 |---|---|
@@ -31,7 +31,7 @@
 
 | Strategy | Contacted | Real leavers reached | Net value (EUR) |
 |---|---|---|---|
-| retainlens_expected_value | 500 | 239 | 406,848 |
+| churnshield_expected_value | 500 | 239 | 406,848 |
 | highest_churn_probability | 500 | 287 | 360,877 |
 | highest_balance | 500 | 112 | 223,596 |
 | random | 500 | 95 | 111,726 |

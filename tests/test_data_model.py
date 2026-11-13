@@ -2,8 +2,8 @@ import numpy as np
 import pandas as pd
 import pytest
 
-from retainlens.data import FEATURES, TARGET, split, validate
-from retainlens.model import choose, holdout_metrics
+from churnshield.data import FEATURES, TARGET, split, validate
+from churnshield.model import choose, holdout_metrics
 
 
 def test_dataset_is_clean_and_has_expected_shape(data):

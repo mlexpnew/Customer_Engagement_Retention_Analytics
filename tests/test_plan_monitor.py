@@ -1,8 +1,8 @@
 import numpy as np
 import pandas as pd
 
-from retainlens.monitor import drift_report, psi, segment_report
-from retainlens.plan import Assumptions, compare_strategies, expected_net, realised_value, select
+from churnshield.monitor import drift_report, psi, segment_report
+from churnshield.plan import Assumptions, compare_strategies, expected_net, realised_value, select
 
 
 def frame(n=6):
@@ -39,7 +39,7 @@ def test_strategy_comparison_shape():
     p = rng.uniform(0, 1, 300)
     churned = (rng.uniform(0, 1, 300) < p).astype(int)
     r = compare_strategies(p, df, churned, budget=2000, a=Assumptions())
-    assert set(r["strategies"]) == {"retainlens_expected_value", "highest_churn_probability",
+    assert set(r["strategies"]) == {"churnshield_expected_value", "highest_churn_probability",
                                     "highest_balance", "random"}  # fmt: skip
     assert r["strategies"]["random"]["contacted"] == 50
 

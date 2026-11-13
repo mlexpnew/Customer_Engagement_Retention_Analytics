@@ -1,4 +1,4 @@
-"""RetainLens demo (Streamlit): upload customers, get a risk list and a call plan.
+"""ChurnShield demo (Streamlit): upload customers, get a risk list and a call plan.
 
     pip install -e ".[app]" && streamlit run app.py
 """
@@ -13,12 +13,12 @@ import streamlit as st
 
 sys.path.insert(0, str(Path(__file__).parent / "src"))
 
-from retainlens.data import load  # noqa: E402
-from retainlens.plan import Assumptions  # noqa: E402
-from retainlens.service import drift, load_model, plan, score  # noqa: E402
+from churnshield.data import load  # noqa: E402
+from churnshield.plan import Assumptions  # noqa: E402
+from churnshield.service import drift, load_model, plan, score  # noqa: E402
 
-st.set_page_config(page_title="RetainLens", page_icon="🏦", layout="wide")
-st.title("RetainLens")
+st.set_page_config(page_title="ChurnShield", page_icon="🏦", layout="wide")
+st.title("ChurnShield")
 st.caption(
     "Which customers are about to leave, why, and who to call first with this month's budget."
 )
